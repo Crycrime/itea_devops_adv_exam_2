@@ -86,7 +86,8 @@ resource "aws_eks_node_group" "node" {
   subnet_ids = [
     aws_subnet.itea-subpub1.id,
     aws_subnet.itea-subpub2.id,
-  aws_subnet.itea-subpub3.id]
+    aws_subnet.itea-subpub3.id
+  ]
 
   scaling_config {
     desired_size = 3
