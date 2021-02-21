@@ -83,7 +83,10 @@ resource "aws_eks_node_group" "node" {
   node_group_name = "node_cluster"
   instance_types  = ["t3.medium"]
   node_role_arn   = aws_iam_role.eks_nodes.arn
-  subnet_ids      = [aws_subnet.itea-subpub1.id, aws_subnet.itea-subpub2.id, aws_subnet.itea-subpub2.id]
+  subnet_ids = [
+    aws_subnet.itea-subpub1.id,
+    aws_subnet.itea-subpub2.id,
+  aws_subnet.itea-subpub3.id]
 
   scaling_config {
     desired_size = 3
