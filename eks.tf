@@ -21,7 +21,7 @@ module "itea-cluster" {
   subnets = [
     aws_subnet.itea-subpub1.id,
     aws_subnet.itea-subpub2.id,
-    aws_subnet.itea-subpub2.id
+    aws_subnet.itea-subpub3.id
   ]
   vpc_id = aws_vpc.itea-vpc.id
 
