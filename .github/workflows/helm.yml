@@ -18,7 +18,7 @@ jobs:
       - name: 'Deploy'
         uses: 'deliverybot/helm@v1'
         with:
-          release: 'nginx'
+          release: 'wordpress'
           namespace: 'default'
           chart: 'helm'
           helm: 'helm3'
