@@ -35,7 +35,7 @@ module "itea-cluster" {
     },
     {
       name                          = "worker-2"
-      instance_type                 = "t2.medium"
+      instance_type                 = "t2.small"
       asg_desired_capacity          = 1
       root_volume_type              = "gp2"
       additional_security_group_ids = [aws_security_group.itea-sg.id]
@@ -81,7 +81,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
 resource "aws_eks_node_group" "node" {
   cluster_name    = data.aws_eks_cluster.cluster_adv.name
   node_group_name = "node_cluster"
-  instance_types  = ["t3.medium"]
+  instance_types  = ["t2.medium"]
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids = [
     aws_subnet.itea-subpub1.id,
