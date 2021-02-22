@@ -5,3 +5,7 @@ output "eks_endpoint" {
 output "kubeconfig-certificate-authority-data" {
   value = data.aws_eks_cluster.cluster_adv.certificate_authority[0].data
 }
+
+output "eks_name" {
+  value = data.aws_eks_cluster.cluster_adv.name
+}

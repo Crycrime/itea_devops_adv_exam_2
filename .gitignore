@@ -1,0 +1,16 @@
+*.bak
+.*
+!.gitignore
+*.tfstate
+*.tfstate.*
+/travis-ci
+/travis-ci/**
+/gitlab-ci
+/gitlab-ci/**
+/les_05/**
+/les_05
+/les_04
+/les_04/**
+*.tfvars
+/word_tmp
+/word_tmp/**
