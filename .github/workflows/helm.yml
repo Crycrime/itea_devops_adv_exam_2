@@ -3,7 +3,7 @@ name: 'Helm'
 on:
   workflow_run:
     workflows:
-      - Terrafom
+      - Terraform AWS
     types:
       - completed
     branches:
