@@ -1,4 +1,4 @@
-name: Helm
+name: 'Helm'
 
 on:
   workflow_run:
