@@ -10,14 +10,14 @@ provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster_adv.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster_adv.certificate_authority.0.data)
   token                  = data.aws_eks_cluster_auth.cluster_adv.token
-  #load_config_file       = false
-  #version                = "~> 1.9"
+  load_config_file       = false
+  version                = "~> 1.9"
 }
 
 module "itea-cluster" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "itea-cluster"
-  cluster_version = "1.18"
+  cluster_version = "1.17"
   subnets = [
     aws_subnet.itea-subpub1.id,
     aws_subnet.itea-subpub2.id,
@@ -41,63 +41,10 @@ module "itea-cluster" {
       additional_security_group_ids = [aws_security_group.itea-sg.id]
     },
   ]
-}
 
-resource "aws_iam_role" "eks_nodes" {
-  name = "eks-node-group-cluster"
 
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com",
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-POLICY
-}
-
-resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.eks_nodes.name
-}
-
-resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.eks_nodes.name
-}
-
-resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.eks_nodes.name
-}
-
-resource "aws_eks_node_group" "node" {
-  cluster_name    = data.aws_eks_cluster.cluster_adv.name
-  node_group_name = "node_cluster"
-  instance_types  = ["t2.medium"]
-  node_role_arn   = aws_iam_role.eks_nodes.arn
-  subnet_ids = [
-    aws_subnet.itea-subpub1.id,
-    aws_subnet.itea-subpub2.id,
-    aws_subnet.itea-subpub3.id
-  ]
-
-  scaling_config {
-    desired_size = 3
-    max_size     = 3
-    min_size     = 3
-  }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
-  ]
+  worker_additional_security_group_ids = [aws_security_group.itea-sg.id]
+  map_roles                            = var.map_roles
+  map_users                            = var.map_users
+  map_accounts                         = var.map_accounts
 }
